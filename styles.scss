@@ -327,7 +327,7 @@ div.inner-bar{
   height:6rem;
   box-shadow: 0 0 10px 0 var(--gray);
   position: fixed;
-  bottom: 0;
+  bottom: 0 !important;
   align-items: center;
   display:flex;
   flex-direction: row-reverse;
