@@ -1,0 +1,760 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body{
+  transition: background-color 500ms, color 500ms; 
+}
+
+:root{
+  --dark-blue: #0B4F6C;
+  --light-blue:#01BAEF;
+  --cream:#fffbee;
+  --red:#C03221;
+  --gray:#868686;
+  --light-gray:#d4d4d4;
+
+  --background: var(--cream);
+}
+
+.darkmode-toggle-btn{ // this is not really ideal 
+  color: black;
+  cursor: pointer;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+
+.darkmode-toggle-btn:before{
+  content: 'DARK';
+  font-family: 'Indie Flower', cursive;
+  position: absolute;
+  right: 2rem;
+  top: 0.2rem;
+}
+
+.darkmode{ // al sana bir başlangıç certain things still need to change
+  --dark-blue: #27a0d4;
+  --light-blue:#01BAEF;
+  --cream:#000f16;
+  --red:#ff1414;
+  --gray:#868686;
+  --light-gray:#d4d4d4;
+
+  div{
+    color: white;
+  }
+
+  .m_matchCard{
+    color: black;
+  }
+
+  .darkmode-toggle-btn{
+    color: rgb(255, 254, 191);
+  }
+
+  .darkmode-toggle-btn:before{
+    content:"LIGHT"
+  }
+
+  .solution-text{
+    color: black;
+    box-shadow: none;
+  }
+
+  div.pop-up{
+    box-shadow: none;
+  }
+
+  button{
+    color:black;
+  }
+
+  header{
+    background-color: var(--cream);
+  }
+  --background: var(--cream);
+}
+
+@mixin button{
+  text-transform: uppercase;
+  padding:10px 20px;
+  border-radius: 100vmax;
+  border: 2px solid var(--gray);
+  font-weight: 900;
+  font-size: 0.8rem;
+  box-shadow: 2px 2px 0 1px var(--gray);
+  color:var(--dark-blue);
+  letter-spacing:3px;
+  outline: none; // maybe get rif of this ?
+}
+
+@mixin center{
+  display: flex;
+  align-items: center;
+  justify-content:center;
+}
+
+button{
+  cursor: pointer;
+}
+
+body{
+  overflow-x: hidden; 
+  background-color: var(--background);
+  min-height: 100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content: center;
+}
+
+.overlay{
+  display:none;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  z-index: 6; 
+  background-color:rgba(0, 0, 0, 0.644);
+}
+
+// Header
+
+header{
+  width:100%;
+  height:3.5rem;
+  align-items:center;
+  box-shadow:0 0 15px 0 var(--gray);
+  position: sticky;
+  top:0;
+  z-index: 5; 
+  background-color: white;
+}
+
+// The Bottom Gap for the Scroll
+
+div.bottom-gap{ 
+  height:200px;
+  width: 100%;
+}
+
+// Scrollbar
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #ffffff; 
+}
+ 
+::-webkit-scrollbar-thumb {
+  background: var(--dark-blue); 
+  border-radius:1.2rem;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--light-blue); 
+}
+
+
+// The levels 
+
+main{
+
+  text-align: center;
+  letter-spacing: 1px;
+  
+  div{
+    display: flex;
+    justify-content:center;
+  }
+
+  .level + .level{
+    margin-left: 3rem;
+  }
+
+  .level{
+    display: flex;
+    flex-direction:column;
+    position: relative;
+    margin-top: 2rem;
+  }
+
+}
+
+.level .pop-up{
+  position: absolute;
+  top: 185px;
+  align-self: center;
+  z-index: 4;
+  width:200px;
+  height:100px;
+  border-radius: 1rem;
+  background-color:var(--light-blue);
+  align-items: center;
+  display: none;
+  animation: pop-scale-up 500ms;
+  cursor:auto;
+
+  box-shadow: 10px 10px 15px 10px rgba(128, 128, 128, 0.486); 
+
+  button{
+    @include button
+  }
+
+  button:active{
+    transform: translateX(3px) translateY(3px);
+    box-shadow: 1px 1px 0 0px var(--gray);
+    transition: transform 50ms;
+  }
+}
+
+.level .pop-up::before{
+  content: "";
+  position: absolute;
+  top: -10px;
+  width: 20px;
+  height: 20px;
+  background-color:var(--light-blue);
+  transform:rotate(45deg);
+}
+
+// The Circle Progress Bars
+
+.circle{
+  @include center;
+  position: relative;
+  width: 175px;
+  height:175px;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.spinner{
+  border-radius: 50%;
+  position: absolute;
+  width:100%;
+  height:100%;
+  border: 15px solid transparent;
+  align-items: center;
+
+  img{
+    width:90%;
+    height:90%;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid var(--dark-blue);
+    z-index: 3;
+    transition:box-shadow 400ms;
+  }
+
+  img:hover{
+    box-shadow: 0 0 20px 0 var(--dark-blue);
+  }
+}
+
+.twenty-five-percent {
+  border-top: 15px solid var(--light-blue);
+  transform: rotate(45deg);
+}
+
+.fifty-percent {
+  border-top: 15px solid var(--light-blue);
+  transform: rotate(135deg);
+}
+
+.seventy-five-percent {
+  border-top: 15px solid var(--light-blue);
+  transform: rotate(225deg);
+}
+
+.one-hundred-percent {
+  border-top: 15px solid var(--light-blue);
+  transform: rotate(315deg);
+  z-index: 3;
+}
+
+
+// EXERCISE SECTION 
+
+// Progress Bar
+
+.exercise-container{
+  display:none;
+  flex-direction: column;
+  align-items: center;
+}
+
+div.progress-bar{
+  width:70%;
+  border-radius: 100vmax;
+  height:1.1rem;
+  border: 1px solid var(--gray);
+  align-items: center;
+  margin: 1rem auto;
+  position: absolute;
+  top: 0;
+}
+
+div.inner-bar{
+  height:1rem;
+  background-color: var(--light-blue);
+  width:0;
+  max-width: 100%;
+  border-radius: 100vmax;
+  transition: width 400ms;
+}
+
+
+// Exercise Section Parts
+
+.exercise-instructions{
+  position: absolute;
+  top:10vh;
+  font-weight: 900;
+  font-size:18px;
+}
+
+.footer{
+  width:100%;
+  height:6rem;
+  box-shadow: 0 0 10px 0 var(--gray);
+  position: absolute;
+  bottom: 0;
+  align-items: center;
+  display:flex;
+  flex-direction: row-reverse;
+  padding: 0 2rem;
+}
+
+.solution-text{
+  margin: auto;
+  bottom: 6rem; 
+  background-color: var(--dark-blue);
+  color: white;
+  padding: 1rem;
+  border-radius: 1rem;
+}
+
+
+// The fill the blank exercises //////////////////////////////////////////////////////////////////////////////////////////////7
+
+div.ex_filltheblank{
+  display:flex;
+  flex-direction: column;
+  height:10rem;
+  justify-content:space-between;
+}
+
+.f_blank{ // for now it works 
+ outline: none;
+ border-radius:1rem;
+ border: 1px solid var(--light-gray);
+ padding:1rem;
+ font-size:16px;
+ transition: box-shadow 500ms;
+}
+
+.f_blank:focus{
+  border: 1px solid var(--dark-blue);
+}
+
+
+// Matching Exercies /////////////////////////////////////////////////////////////////////////////////////////////////
+
+div.ex_matching{
+  @include center;
+}
+
+.m_word-container{
+  display: flex;
+  flex-direction:column;
+}
+
+.m_word-container + .m_word-container{
+  margin-left: 1rem;
+}
+
+.m_matchCard{
+  padding:1rem;
+  background-color: var(--light-gray);
+  border-radius: 1rem;
+  cursor: pointer;
+  transition: background-color 700ms;
+  text-align: center;
+}
+
+.m_matchCard + .m_matchCard{ 
+  margin-top:1rem;
+}
+
+div.m_chosenCard{
+  box-shadow: 0px 0px 10px 0px var(--light-blue);
+}
+
+div.m_wonCard{
+  background-color:var(--dark-blue);
+  color: white;
+}
+
+
+// Structure Exercises  ///////////////////////////////////////////////////////////////////////////////////////////////////
+
+div.ex_structure{
+  display:flex;
+  justify-content: center;
+  flex-direction:column;
+  width:400px;
+}
+
+.s_origin_sentence{
+  margin-bottom: 1rem;
+}
+
+.s_given{
+  margin-bottom: 1rem;
+  height:2.5rem;
+  align-items: center;
+  display: flex;
+}
+
+.s_blank{ 
+  display:flex;
+  flex-wrap: wrap;
+  min-height: 8.5rem;
+  justify-content: start;
+  margin-top: 2.2rem;
+
+  button{
+    margin-left: 0.8rem;
+    margin-bottom: 0.5rem;
+  }
+}
+
+div.usable-words{
+  @include center;
+  flex-wrap: wrap;
+  margin-top: 2.2rem ;
+  div + div{
+    margin-left:1rem;
+  }
+}
+
+div.word-capsule{
+  @include center;
+  background-color:var(--gray);
+  border-radius: 100vmax;
+  margin-bottom: 1rem;
+}
+
+button.s_word{
+  border-radius: 100vmax;
+  background-color:var(--light-gray);
+  border:none;
+  padding:0px 20px;
+  height:2.5rem;
+  cursor: pointer;
+}
+
+
+
+div.button-container {
+  width: 100px;
+  border-radius:30px;
+  cursor: pointer;
+
+  transform-style: preserve-3d;
+  transition: all 1s ease;
+}
+
+.footer-btn{
+  @include button;
+}
+
+.solution-button{
+  margin-right: 1rem;
+  height:3rem;
+}
+
+.solution-button:active{
+  transform: translateX(3px) translateY(3px);
+  box-shadow: 1px 1px 0 0px var(--gray);
+  transition: transform 50ms;
+}
+
+.front-btn{
+width: 100%;
+height:3rem;
+border-radius:30px;
+
+position: absolute;
+backface-visibility: hidden;
+overflow: hidden;
+}
+
+.back-btn{
+  width:100%;
+  height:3rem;
+  border-radius:30px;
+  background-color: var(--dark-blue);
+  color: white;
+  pointer-events: none;
+
+  backface-visibility: hidden;
+  transform: rotateY(180deg);
+  overflow: hidden;
+}
+
+.show-solution-button{
+  width: 100px;
+  border-radius:30px;
+
+}
+
+
+// Test Exercises    ///////////////////////////////////////////////////////////////////////////////////////////////////
+
+.ex_test{
+  display:flex;
+  flex-direction:column;
+}
+
+.t_blank{
+  border-bottom: 1px solid var(--dark-blue);
+  margin: 0 0.5rem;
+  width:4rem;
+}
+
+.t_question{
+  display:flex;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.t_options{
+  display:flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.t_option{
+  padding: 10px 20px;
+  background-color: var(--light-gray);
+  border-radius:10px;
+  border: none;
+  outline: none;
+}
+
+.t_option + .t_option{
+  margin-left: 1rem;
+}
+
+.t_option{
+  transition: background-color 500ms, box-shadow 400ms;
+}
+
+.t_chosen{
+  box-shadow: 0 0 10px 0 var(--dark-blue);
+}
+
+.t_correct{
+  background-color: var(--dark-blue);
+  color: white;
+}
+
+
+
+// All the animations and stuff
+
+@keyframes scaleup{
+  from{
+    transform: scale(0);
+  }
+
+  to{
+    transform: scale(1);
+  }
+}
+
+@keyframes rotate-out{
+  from{
+    transform: rotateY(0deg);
+    opacity: 1;
+  }
+
+  to{
+    transform: rotateY(90deg);
+    opacity: 0;
+  }
+}
+
+@keyframes rotate-in{
+  from{
+    transform: rotateY(90deg);
+    opacity: 0;
+  }
+
+  to{
+    transform: rotateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-out {
+  from{
+    transform:translateX(0);
+    opacity: 1;
+  }
+  to{
+    transform:translateX(-50%);
+    opacity:0;
+  }
+}
+
+@keyframes slide-in {
+  from{
+    transform:translateX(50%);
+    opacity:0;
+  }
+  to{
+    transform: translateX(0);
+    opacity:1;
+  }
+}
+
+@keyframes red-pulse{ // When the user chooses two wrong cards :) 
+  from{
+    box-shadow:0px 0px 5px 1px var(--red);
+  }
+
+  to{
+    box-shadow: 0 0 20px 0  rgba(255, 0, 0, 0);
+  } 
+}
+
+@keyframes pop-scale-up {
+  from {
+    transform: scaleX(0) scaleY(0) translateY(-100px);
+  }
+
+  to{
+    transform: scale(1);
+  }
+}
+
+@keyframes pop-scale-down {
+  from{
+    transform: scale(1);
+  }
+
+  to {
+    transform: scaleX(0) scaleY(0) translateY(-90px);
+  }
+}
+
+@keyframes rotate-up{
+  from{
+    transform: rotateX(90deg);
+  }
+  to{
+    transform: rotateX(0deg);
+  }
+}
+
+@keyframes rotate-down{
+  from{
+    transform: rotateX(0deg);
+  }
+  to{
+    transform: rotateX(90deg);
+  }
+}
+
+
+// Media Queries 
+
+@media (max-width: 650px){
+
+  main{  // The starting screen 
+    .circle{
+      width:150px;
+      height:150px;
+    }
+    .level{
+      margin: 0rem;
+    }
+    .level + .level{
+      margin-left:0.5rem ;
+    }
+  }
+
+  div.progress-bar{ // Progress Bar
+    width:90%;
+  }
+
+  div.exercise-instructions{ // General Instructions
+    font-size:16px;
+    padding: 0px 10px;
+    top: 8vh;
+  }
+
+  div.ex_structure{ // Structure Exercises
+    width:90%;
+    height:60vh;
+    justify-content:space-between;
+  }
+
+  .s_blank{
+    position: absolute;
+    top: 26vh;
+    margin: 0;
+  }
+
+  .s_given{
+    margin-bottom: 0;
+  }
+
+  button.s_word{
+    padding: 0px 5px;
+    border-radius: 10px;
+    margin-bottom: 0;
+  }
+
+  div.ex_filltheblank{ // Fill the Blank Exercises
+    width: 90%;
+  }
+
+  .f_origin-sentence{
+    margin-bottom: 1rem;
+  }
+
+  div.ex_text{ // Test Exercises
+    width:90%;
+  }
+
+  div.t_options{
+    display:flex;
+    flex-direction: column;
+
+    .t_option + .t_option{
+      margin-left: 0;
+    }
+
+  }
+
+  .t_option{
+    margin-top: 0.75rem;
+    font-size: 16px;  
+  }
+
+  .footer{ // Ortalanacak buttonlar
+    @include center;
+  }
+}
